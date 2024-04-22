@@ -17,10 +17,19 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+	// テクスチャハンドルを取得
+	textureHandle_ = TextureManager::Load("img/player.png");
+	// 3Dモデルの生成
+	model_ = Model::Create();
+
 	// 自キャラの生成
 	player_ = new Player();
 	// 自キャラの初期化
-	player_->Initialize();
+	player_->Initialize(model_, textureHandle_);
+
+	// ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+	
 }
 
 void GameScene::Update() 
@@ -58,7 +67,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
-	player_->Draw();
+	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

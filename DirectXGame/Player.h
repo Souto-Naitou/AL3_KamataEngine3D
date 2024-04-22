@@ -19,7 +19,9 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void	Initialize();
+	/// <param name="_model">モデル</param>
+	/// <param name="_textureHandle">テクスチャハンドル</param>
+	void	Initialize(Model* _model, uint32_t _textureHandle);
 
 	/// <summary>
 	/// 更新
@@ -29,6 +31,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void	Draw();
+	/// <param name="_viewProjection">ビュープロジェクション（参照渡し）</param>
+	void	Draw(ViewProjection& _viewProjection);
 
 };
