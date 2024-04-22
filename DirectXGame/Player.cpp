@@ -13,7 +13,6 @@ void Player::Initialize(Model* _model, uint32_t _textureHandle)
 	// ワールド変換の初期化
 	worldTransform_.Initialize();
 
-
 }
 
 void Player::Update() 
