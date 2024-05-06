@@ -67,9 +67,9 @@ void Player::Update()
 	Attack();
 
 	// 弾更新
-	if (bullet_)
+	for (PlayerBullet* bullet : bullets_)
 	{
-		bullet_->Update();
+		bullet->Update();
 	}
 
 	ImGui::Begin("pos");
@@ -86,9 +86,9 @@ void Player::Draw(ViewProjection& _viewProjection)
 	model_->Draw(worldTransform_, _viewProjection, textureHandle_);
 
 	// 弾描画
-	if (bullet_)
+	for (PlayerBullet* bullet : bullets_)
 	{
-		bullet_->Draw(_viewProjection);
+		bullet->Draw(_viewProjection);
 	}
 
 }
@@ -102,7 +102,7 @@ void Player::Attack()
 		newBullet->Initialize(model_, worldTransform_.translation_);
 
 		// 弾を登録する
-		bullet_ = newBullet;
+		bullets_.push_back(newBullet);
 	}
 }
 
@@ -119,5 +119,14 @@ void Player::Rotate()
 	else if (input_->PushKey(DIK_D))
 	{
 		worldTransform_.rotation_.y += kRotSpeed;
+	}
+}
+
+Player::~Player()
+{
+	// bullet_の解放
+	for (PlayerBullet* bullet : bullets_)
+	{
+		delete bullet;
 	}
 }

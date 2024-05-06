@@ -3,6 +3,7 @@
 #include <Model.h>
 #include <Input.h>
 #include "PlayerBullet.h"
+#include <list>
 
 class Player {
 
@@ -20,12 +21,13 @@ private:
 	Input* input_ = nullptr;
 
 	// 弾
-	PlayerBullet* bullet_ = nullptr;
+	std::list<PlayerBullet*> bullets_;
 
 	// 回転
 	void Rotate();
 
 public:
+	~Player();
 	
 	/// <summary>
 	/// 初期化
