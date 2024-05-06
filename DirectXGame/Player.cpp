@@ -60,11 +60,17 @@ void Player::Update()
 	worldTransform_.translation_.x = clamp(worldTransform_.translation_.x, -kMoveLimitX, kMoveLimitX);
 	worldTransform_.translation_.y = clamp(worldTransform_.translation_.y, -kMoveLimitY, kMoveLimitY);
 
-	// ワールド行列の更新
-	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-	
-	// 行列を定数バッファに転送
-	worldTransform_.TransferMatrix();
+	// ワールドトランスフォームの更新
+	worldTransform_.UpdateMatrix();
+
+	// キャラクター攻撃処理
+	Attack();
+
+	// 弾更新
+	if (bullet_)
+	{
+		bullet_->Update();
+	}
 
 	ImGui::Begin("pos");
 
@@ -79,4 +85,39 @@ void Player::Draw(ViewProjection& _viewProjection)
 
 	model_->Draw(worldTransform_, _viewProjection, textureHandle_);
 
+	// 弾描画
+	if (bullet_)
+	{
+		bullet_->Draw(_viewProjection);
+	}
+
+}
+
+void Player::Attack()
+{
+	if (input_->TriggerKey(DIK_SPACE))
+	{
+		// 弾を生成し、初期化
+		PlayerBullet* newBullet = new PlayerBullet();
+		newBullet->Initialize(model_, worldTransform_.translation_);
+
+		// 弾を登録する
+		bullet_ = newBullet;
+	}
+}
+
+void Player::Rotate()
+{
+	// 回転速さ{ラジアン / frame}
+	const float kRotSpeed = 0.02f;
+
+	// 押した方向で移動ベクトルを変更
+	if (input_->PushKey(DIK_A))
+	{
+		worldTransform_.rotation_.y -= kRotSpeed;
+	}
+	else if (input_->PushKey(DIK_D))
+	{
+		worldTransform_.rotation_.y += kRotSpeed;
+	}
 }

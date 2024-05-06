@@ -73,6 +73,15 @@
     <Filter Include="ヘッダー ファイル\math\MathExt">
       <UniqueIdentifier>{ce6d05af-cd22-4fc8-862f-9f6684ef052f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\bullet">
+      <UniqueIdentifier>{e2d2deb9-7a12-4e97-857d-5a7f67e3170a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\bullet">
+      <UniqueIdentifier>{bdbf6bca-a7d5-4502-8f31-86d3a78925c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\3d">
+      <UniqueIdentifier>{3674e679-e506-48d9-be12-cc76986433e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -101,6 +110,12 @@
     </ClCompile>
     <ClCompile Include="math\MathExtension\mathExtension.cpp">
       <Filter>ヘッダー ファイル\math\MathExt</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>ソース ファイル\bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldTransformEx.cpp">
+      <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="math\MathExtension\mathExtension.h">
       <Filter>ヘッダー ファイル\math\MathExt</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>ヘッダー ファイル\bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

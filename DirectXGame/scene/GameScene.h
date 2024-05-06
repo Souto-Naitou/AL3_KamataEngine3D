@@ -67,5 +67,4 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 
 	bool isDebugCameraActive_ = false;
-
 };
