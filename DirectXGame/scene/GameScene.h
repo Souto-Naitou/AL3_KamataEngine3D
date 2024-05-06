@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "DebugCamera.h"
 
 #include "Player.h"
 
@@ -61,5 +62,10 @@ private: // メンバ変数
 
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	// DebugCamera
+	DebugCamera* debugCamera_ = nullptr;
+
+	bool isDebugCameraActive_ = false;
 
 };

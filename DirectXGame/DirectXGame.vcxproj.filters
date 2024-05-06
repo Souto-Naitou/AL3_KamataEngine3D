@@ -58,6 +58,21 @@
     <Filter Include="ソース ファイル\player">
       <UniqueIdentifier>{35901247-5570-453c-b0d0-118b1ae344da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\math\Matrix4x4">
+      <UniqueIdentifier>{02ef97fa-e8b1-4e75-8c4c-922a4304fa71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\math\Matrix4x4\calc">
+      <UniqueIdentifier>{8cb956e3-981d-4040-b1b5-a8a4fe325949}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\math\Vector3">
+      <UniqueIdentifier>{87010cd8-5d9f-450d-8525-5a7cc919f023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\math\Vector3\calc">
+      <UniqueIdentifier>{c68fa562-35af-4a19-a706-d1fc5f401583}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\math\MathExt">
+      <UniqueIdentifier>{ce6d05af-cd22-4fc8-862f-9f6684ef052f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -77,6 +92,15 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>ヘッダー ファイル\player</Filter>
+    </ClCompile>
+    <ClCompile Include="math\Matrix4x4\calc\matrix4calc.cpp">
+      <Filter>ヘッダー ファイル\math\Matrix4x4\calc</Filter>
+    </ClCompile>
+    <ClCompile Include="math\Vector3\calc\vector3calc.cpp">
+      <Filter>ヘッダー ファイル\math\Vector3\calc</Filter>
+    </ClCompile>
+    <ClCompile Include="math\MathExtension\mathExtension.cpp">
+      <Filter>ヘッダー ファイル\math\MathExt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +193,15 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Matrix4x4\calc\matrix4calc.h">
+      <Filter>ヘッダー ファイル\math\Matrix4x4\calc</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Vector3\calc\vector3calc.h">
+      <Filter>ヘッダー ファイル\math\Vector3\calc</Filter>
+    </ClInclude>
+    <ClInclude Include="math\MathExtension\mathExtension.h">
+      <Filter>ヘッダー ファイル\math\MathExt</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
