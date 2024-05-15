@@ -3,6 +3,12 @@
 #include <WorldTransform.h>
 #include <Model.h>
 
+enum class Phase
+{
+	Approach,	// 接近する
+	Leave,		// 離脱する
+};
+
 /// <summary>
 /// 敵
 /// </summary>
@@ -30,4 +36,10 @@ private:
 	Model*			model_			= nullptr;
 	uint32_t		textureHandle_	= 0u;
 	Vector3			velocity_;
+
+	Phase			phase_			= Phase::Approach;
+
+
+	void			Phase_Approach();
+	void			Phase_Leave();
 };

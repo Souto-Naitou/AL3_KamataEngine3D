@@ -14,6 +14,20 @@ void Enemy::Update()
 {
 	worldTransform_.translation_ += velocity_;
 	worldTransform_.UpdateMatrix();
+
+	switch (phase_)
+	{
+	case Phase::Approach:
+	default:
+		// 接近
+		Phase_Approach();
+		break;
+
+	case Phase::Leave:
+		// 離脱
+		Phase_Leave();
+		break;
+	}
 }
 
 void Enemy::Draw(const ViewProjection& _viewProjection)
