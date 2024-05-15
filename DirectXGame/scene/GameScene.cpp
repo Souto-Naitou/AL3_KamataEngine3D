@@ -30,6 +30,11 @@ void GameScene::Initialize() {
 	// 自キャラの初期化
 	player_->Initialize(model_, textureHandle_);
 
+	// 敵キャラの生成
+	enemy_ = new Enemy();
+	// 敵キャラの初期化
+	enemy_->Initialize(model_, Vector3(0.0f, 2.0f, 200.0f), Vector3(0.0f, 0.0f, -0.5f));
+
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
@@ -40,6 +45,7 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する (アドレス渡し)
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+
 	
 }
 
@@ -48,6 +54,9 @@ void GameScene::Update()
 
 	// 自キャラの更新
 	player_->Update();
+	// 敵キャラの更新
+	if (enemy_)
+		enemy_->Update();
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0))
@@ -104,6 +113,8 @@ void GameScene::Draw() {
 	/// </summary>
 	
 	player_->Draw(viewProjection_);
+	if (enemy_)
+		enemy_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

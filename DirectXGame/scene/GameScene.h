@@ -10,6 +10,7 @@
 #include "DebugCamera.h"
 
 #include "Player.h"
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -59,6 +60,9 @@ private: // メンバ変数
 	
 	// 自キャラ
 	Player* player_ = nullptr;
+
+	// 敵キャラ
+	Enemy* enemy_ = nullptr;
 
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
