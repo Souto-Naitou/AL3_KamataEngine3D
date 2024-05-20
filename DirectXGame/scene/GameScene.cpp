@@ -27,13 +27,15 @@ void GameScene::Initialize() {
 
 	// 自キャラの生成
 	player_ = new Player();
+
 	// 自キャラの初期化
 	player_->Initialize(model_, textureHandle_);
 
 	// 敵キャラの生成
 	enemy_ = new Enemy();
+
 	// 敵キャラの初期化
-	enemy_->Initialize(model_, Vector3(0.0f, 2.0f, 300.0f), Vector3(0.0f, 0.0f, -0.5f));
+	enemy_->Initialize(model_, Vector3(6.0f, 2.0f, 100.0f), Vector3(0.0f, 0.0f, -0.2f));
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();

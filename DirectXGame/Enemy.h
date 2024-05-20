@@ -2,6 +2,7 @@
 
 #include <WorldTransform.h>
 #include <Model.h>
+#include "EnemyBullet.h"
 
 enum class Phase
 {
@@ -15,6 +16,10 @@ enum class Phase
 class Enemy
 {
 public:
+	static const int kFireInterval = 60;
+	int32_t shotRecastTime = 0;
+
+	~Enemy();
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -30,6 +35,11 @@ public:
 	/// </summary>
 	void	Draw(const ViewProjection& _viewProjection);
 
+	void	ApproachPhaseInitialize();
+	void	ApproachPhaseUpdate();
+
+	void	Fire();
+
 private:
 
 	WorldTransform	worldTransform_;
@@ -38,6 +48,9 @@ private:
 	Vector3			velocity_;
 
 	Phase			phase_			= Phase::Approach;
+
+	// 弾
+	std::list<EnemyBullet*> bullets_;
 
 
 	void			Phase_Approach();
