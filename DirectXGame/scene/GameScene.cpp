@@ -35,7 +35,7 @@ void GameScene::Initialize() {
 	enemy_ = new Enemy();
 
 	// 敵キャラの初期化
-	enemy_->Initialize(model_, Vector3(6.0f, 2.0f, 100.0f), Vector3(0.0f, 0.0f, -0.2f));
+	enemy_->Initialize(model_, Vector3(6.0f, 2.0f, 100.0f), Vector3(0.0f, 0.0f, -0.05f));
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -48,7 +48,7 @@ void GameScene::Initialize() {
 	// 軸方向表示が参照するビュープロジェクションを指定する (アドレス渡し)
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
-	
+	enemy_->SetPlayer(player_);
 }
 
 void GameScene::Update() 

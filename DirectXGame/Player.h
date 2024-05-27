@@ -52,4 +52,6 @@ public:
 	/// </summary>
 	void	Attack();
 
+	Vector3 GetWorldPosition();
+
 };

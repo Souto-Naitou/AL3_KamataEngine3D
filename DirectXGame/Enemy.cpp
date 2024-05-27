@@ -1,6 +1,9 @@
 #include "Enemy.h"
 #include <TextureManager.h>
 #include <MathExtension/mathExtension.h>
+#include "Player.h"
+#include "Vector3/calc/vector3calc.h"
+#include <cassert>
 
 Enemy::~Enemy()
 {
@@ -90,18 +93,38 @@ void Enemy::ApproachPhaseUpdate()
 	}
 }
 
+Vector3 Enemy::GetWorldPosition()
+{
+	Vector3 worldPos;
+
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+
+	return worldPos;
+}
+
 void Enemy::Fire()
 {
+	assert(player_);
 	// 弾の速度
-	const float kbulletSpeed = -1.5f;
+	const float kbulletSpeed = 0.5f;
 	Vector3 velocity(0, 0, kbulletSpeed);
 
-	// 速度ベクトルを自機の向きに合わせて回転させる
-	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+	Vector3 playerPosition = player_->GetWorldPosition();
+	Vector3 enemyPosition = this->GetWorldPosition();
+
+	Vector3 subVector = Subtract(playerPosition, enemyPosition);
+	Vector3 normVector = Normalize(subVector);
+
+	Vector3 result = Multiply(kbulletSpeed, normVector);
+
+	//// 速度ベクトルを自機の向きに合わせて回転させる
+	//velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 
 	// 弾を生成し、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
-	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+	newBullet->Initialize(model_, worldTransform_.translation_, result);
 
 	// 弾を登録する
 	bullets_.push_back(newBullet);

@@ -4,6 +4,8 @@
 #include <Model.h>
 #include "EnemyBullet.h"
 
+class Player;
+
 enum class Phase
 {
 	Approach,	// 接近する
@@ -38,6 +40,9 @@ public:
 	void	ApproachPhaseInitialize();
 	void	ApproachPhaseUpdate();
 
+	void	SetPlayer(Player* _player) { player_ = _player; }
+	Vector3	GetWorldPosition();
+
 	void	Fire();
 
 private:
@@ -51,6 +56,8 @@ private:
 
 	// 弾
 	std::list<EnemyBullet*> bullets_;
+
+	Player*			player_			= nullptr;
 
 
 	void			Phase_Approach();
