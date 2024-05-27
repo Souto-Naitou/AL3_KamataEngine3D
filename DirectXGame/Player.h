@@ -54,4 +54,8 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	void OnCollision();
+
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
+
 };

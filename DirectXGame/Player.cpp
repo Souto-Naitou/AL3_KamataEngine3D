@@ -139,6 +139,11 @@ Vector3 Player::GetWorldPosition()
 	return worldPos;
 }
 
+void Player::OnCollision()
+{
+	// Do nothing
+}
+
 void Player::Rotate()
 {
 	// 回転速さ{ラジアン / frame}

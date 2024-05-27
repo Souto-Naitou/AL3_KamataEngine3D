@@ -35,6 +35,10 @@ public:
 	/// <returns></returns>
 	bool IsDead() const { return isDead_; }
 
+	void OnCollision();
+
+	Vector3 GetWorldPosition();
+
 private:
 	static const int32_t kLifeTime			= 60 * 5;		// 寿命<frm>
 

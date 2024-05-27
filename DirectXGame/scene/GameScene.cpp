@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include "AxisIndicator.h"
+#include "Vector3/calc/vector3calc.h"
 
 GameScene::GameScene() {}
 
@@ -84,7 +85,7 @@ void GameScene::Update()
 		viewProjection_.UpdateMatrix();
 	}
 
-
+	CheckAllCollisions();
 }
 
 void GameScene::Draw() {
@@ -133,5 +134,56 @@ void GameScene::Draw() {
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
+#pragma endregion
+}
+
+void GameScene::CheckAllCollisions()
+{
+	Vector3 posA, posB;
+
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+
+#pragma region 自キャラと敵弾の当たり判定
+	posA = player_->GetWorldPosition();
+	for (EnemyBullet* bullet : enemyBullets)
+	{
+		posB = bullet->GetWorldPosition();
+		float aToB = Length(Subtract(posA, posB));
+		if (aToB < 3.0f)
+		{
+			player_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵キャラの当たり判定
+	posA = enemy_->GetWorldPosition();
+	for (PlayerBullet* bullet : playerBullets)
+	{
+		posB = bullet->GetWorldPosition();
+		float aToB = Length(Subtract(posA, posB));
+		if (aToB < 3.0f)
+		{
+			enemy_->OnCollision();
+			bullet->OnCollision();
+		}
+	}
+#pragma endregion
+
+#pragma region 自弾と敵弾の当たり判定
+	for (PlayerBullet* pBullet : playerBullets)
+	{
+		for (EnemyBullet* eBullet : enemyBullets)
+		{
+			float aToB = Length(Subtract(pBullet->GetWorldPosition(), eBullet->GetWorldPosition()));
+			if (aToB < 3.0f)
+			{
+				pBullet->OnCollision();
+				eBullet->OnCollision();
+			}
+		}
+	}
 #pragma endregion
 }

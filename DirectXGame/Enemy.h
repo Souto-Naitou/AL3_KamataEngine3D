@@ -45,6 +45,10 @@ public:
 
 	void	Fire();
 
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+
+	void	OnCollision();
+
 private:
 
 	WorldTransform	worldTransform_;
