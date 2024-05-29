@@ -121,6 +121,7 @@
     <ClCompile Include="WorldTransformEx.cpp" />
     <ClCompile Include="EnemyPhase.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="Skydome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\ImGuiManager.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="Skydome.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">

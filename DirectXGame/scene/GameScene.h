@@ -9,8 +9,11 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 
+#include <memory>
 #include "Player.h"
 #include "Enemy.h"
+
+class Skydome;
 
 /// <summary>
 /// ゲームシーン
@@ -59,6 +62,7 @@ private: // メンバ変数
 
 	// モデル
 	Model* model_ = nullptr;
+	Model* modelSkydome_ = nullptr;
 	
 	// 自キャラ
 	Player* player_ = nullptr;
@@ -73,4 +77,6 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 
 	bool isDebugCameraActive_ = false;
+
+	std::unique_ptr<Skydome> skydome_;
 };

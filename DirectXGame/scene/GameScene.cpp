@@ -3,16 +3,15 @@
 #include <cassert>
 #include "AxisIndicator.h"
 #include "Vector3/calc/vector3calc.h"
+#include "Skydome.h"
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() 
 {
-
 	delete player_;
-
 	delete debugCamera_;
-
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
@@ -25,6 +24,7 @@ void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("img/player.png");
 	// 3Dモデルの生成
 	model_ = Model::Create();
+	modelSkydome_ = Model::CreateFromOBJ("tenkyu", true);
 
 	// 自キャラの生成
 	player_ = new Player();
@@ -50,6 +50,9 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 
 	enemy_->SetPlayer(player_);
+
+	skydome_ = std::make_unique<Skydome>();
+	skydome_.get()->Initialize(modelSkydome_);
 }
 
 void GameScene::Update() 
@@ -86,6 +89,7 @@ void GameScene::Update()
 	}
 
 	CheckAllCollisions();
+	skydome_.get()->Update();
 }
 
 void GameScene::Draw() {
@@ -115,6 +119,8 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
+	skydome_.get()->Draw(viewProjection_);
+
 	player_->Draw(viewProjection_);
 	if (enemy_)
 		enemy_->Draw(viewProjection_);
