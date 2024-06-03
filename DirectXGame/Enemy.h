@@ -45,21 +45,23 @@ public:
 
 	void	Fire();
 
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+
 	void	OnCollision();
 
 private:
 
 	WorldTransform	worldTransform_;
-	Model*			model_			= nullptr;
-	uint32_t		textureHandle_	= 0u;
+	Model* model_ = nullptr;
+	uint32_t		textureHandle_ = 0u;
 	Vector3			velocity_;
 
-	Phase			phase_			= Phase::Approach;
+	Phase			phase_ = Phase::Approach;
 
 	// 弾
 	std::list<EnemyBullet*> bullets_;
 
-	Player*			player_			= nullptr;
+	Player* player_ = nullptr;
 
 	void			Phase_Approach();
 	void			Phase_Leave();
