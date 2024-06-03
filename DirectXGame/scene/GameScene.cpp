@@ -40,7 +40,6 @@ void GameScene::Initialize() {
 
 	// 敵キャラの生成
 	enemy_ = new Enemy();
-	enemy_->SetGameScene(this);
 
 	// 敵キャラの初期化
 	enemy_->Initialize(model_, Vector3(6.0f, 2.0f, 100.0f), Vector3(0.0f, 0.0f, -0.05f));
@@ -103,17 +102,6 @@ void GameScene::Update()
 
 	CheckAllCollisions();
 	skydome_.get()->Update();
-	
-	auto itr = enemyBullets_.begin();
-	for (EnemyBullet* bullet : enemyBullets_)
-	{
-		bullet->Update();
-		if (bullet->IsDead())
-		{
-			enemyBullets_.erase(itr);
-		}
-		itr++;
-	}
 }
 
 void GameScene::Draw() {
@@ -216,9 +204,4 @@ void GameScene::CheckAllCollisions()
 		}
 	}
 #pragma endregion
-}
-
-void GameScene::AddEnemyBullet(EnemyBullet* _enemyBullet)
-{
-	enemyBullets_.push_back(_enemyBullet);
 }
