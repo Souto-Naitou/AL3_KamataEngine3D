@@ -94,6 +94,12 @@
     <Filter Include="ヘッダー ファイル\Skydome">
       <UniqueIdentifier>{3f0c25d7-73f2-4026-9d6f-12f6a2b332c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\railCamera">
+      <UniqueIdentifier>{d366e249-1f33-45d8-bb29-8ed3b75513d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\railCamera">
+      <UniqueIdentifier>{0753b8ff-5d0e-4208-8638-7832f75c6397}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -138,11 +144,14 @@
     <ClCompile Include="EnemyPhase.cpp">
       <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBullet.cpp">
-      <Filter>ソース ファイル\enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>ソース ファイル\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="RailCamera.cpp">
+      <Filter>ソース ファイル\railCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>ソース ファイル\bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,14 +257,17 @@
     <ClInclude Include="PlayerBullet.h">
       <Filter>ヘッダー ファイル\bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBullet.h">
-      <Filter>ヘッダー ファイル\enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Skydome.h">
       <Filter>ヘッダー ファイル\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="RailCamera.h">
+      <Filter>ヘッダー ファイル\railCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ヘッダー ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>ヘッダー ファイル\bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

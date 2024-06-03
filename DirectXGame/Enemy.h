@@ -5,6 +5,7 @@
 #include "EnemyBullet.h"
 
 class Player;
+class GameScene;
 
 enum class Phase
 {
@@ -45,9 +46,8 @@ public:
 
 	void	Fire();
 
-	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
-
 	void	OnCollision();
+	void	SetGameScene(GameScene* _gameScene) { gameScene_ = _gameScene; }
 
 private:
 
@@ -62,7 +62,7 @@ private:
 	std::list<EnemyBullet*> bullets_;
 
 	Player*			player_			= nullptr;
-
+	GameScene*		gameScene_		= nullptr;
 
 	void			Phase_Approach();
 	void			Phase_Leave();

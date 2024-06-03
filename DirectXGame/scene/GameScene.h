@@ -12,6 +12,8 @@
 #include <memory>
 #include "Player.h"
 #include "Enemy.h"
+#include "RailCamera.h"
+#include "EnemyBullet.h"
 
 class Skydome;
 
@@ -48,6 +50,8 @@ public: // メンバ関数
 
 	void CheckAllCollisions();
 
+	void AddEnemyBullet(EnemyBullet* _enemyBullet);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -79,4 +83,8 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;
 
 	std::unique_ptr<Skydome> skydome_;
+
+	RailCamera* railCamera_ = nullptr;
+
+	std::list<EnemyBullet*> enemyBullets_;
 };

@@ -35,6 +35,8 @@ public:
 	/// <returns></returns>
 	bool IsDead() const { return isDead_; }
 
+	void SetParent(const WorldTransform* _parent);
+
 	void OnCollision();
 
 	Vector3 GetWorldPosition();

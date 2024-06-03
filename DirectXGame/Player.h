@@ -34,7 +34,7 @@ public:
 	/// </summary>
 	/// <param name="_model">モデル</param>
 	/// <param name="_textureHandle">テクスチャハンドル</param>
-	void	Initialize(Model* _model, uint32_t _textureHandle);
+	void	Initialize(Model* _model, uint32_t _textureHandle, Vector3 _position);
 
 	/// <summary>
 	/// 更新
@@ -58,4 +58,5 @@ public:
 
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
+	void SetParent(const WorldTransform* _parent);
 };

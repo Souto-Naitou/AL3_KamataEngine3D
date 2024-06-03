@@ -6,7 +6,7 @@
 #include "Vector3/calc/vector3calc.h"
 #include "MathExtension/mathExtension.h"
 
-void Player::Initialize(Model* _model, uint32_t _textureHandle) 
+void Player::Initialize(Model* _model, uint32_t _textureHandle, Vector3 _position)
 {
 	// NULLチェック
 	assert(_model);
@@ -21,6 +21,7 @@ void Player::Initialize(Model* _model, uint32_t _textureHandle)
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
 
+	worldTransform_.translation_ = _position;
 }
 
 void Player::Update() 
@@ -122,6 +123,7 @@ void Player::Attack()
 		// 弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
 		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+		newBullet->SetParent(worldTransform_.parent_);
 
 		// 弾を登録する
 		bullets_.push_back(newBullet);
@@ -142,6 +144,11 @@ Vector3 Player::GetWorldPosition()
 void Player::OnCollision()
 {
 	// Do nothing
+}
+
+void Player::SetParent(const WorldTransform* _parent)
+{
+	worldTransform_.parent_ = _parent;
 }
 
 void Player::Rotate()

@@ -26,14 +26,21 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	modelSkydome_ = Model::CreateFromOBJ("tenkyu", true);
 
+	// レールカメラ生成
+	railCamera_ = new RailCamera();
+	railCamera_->Initialize({ 0,0,0 }, { 0, 0, 0 });
+
 	// 自キャラの生成
 	player_ = new Player();
 
 	// 自キャラの初期化
-	player_->Initialize(model_, textureHandle_);
+	Vector3 playerPosition(0, 0, 20.0f);
+	player_->Initialize(model_, textureHandle_, playerPosition);
+	player_->SetParent(&railCamera_->GetWorldTransform());
 
 	// 敵キャラの生成
 	enemy_ = new Enemy();
+	enemy_->SetGameScene(this);
 
 	// 敵キャラの初期化
 	enemy_->Initialize(model_, Vector3(6.0f, 2.0f, 100.0f), Vector3(0.0f, 0.0f, -0.05f));
@@ -53,16 +60,19 @@ void GameScene::Initialize() {
 
 	skydome_ = std::make_unique<Skydome>();
 	skydome_.get()->Initialize(modelSkydome_);
+
 }
 
 void GameScene::Update() 
 {
-
 	// 自キャラの更新
 	player_->Update();
 	// 敵キャラの更新
 	if (enemy_)
 		enemy_->Update();
+	// レールカメラの更新
+	if (railCamera_)
+		railCamera_->Update();
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0))
@@ -84,12 +94,26 @@ void GameScene::Update()
 	}
 	else
 	{
+		const ViewProjection& railCamVP = railCamera_->GetViewProjection();
+		viewProjection_.matView = railCamVP.matView;
+		viewProjection_.matProjection = railCamVP.matProjection;
 		// ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
+		viewProjection_.TransferMatrix();
 	}
 
 	CheckAllCollisions();
 	skydome_.get()->Update();
+	
+	auto itr = enemyBullets_.begin();
+	for (EnemyBullet* bullet : enemyBullets_)
+	{
+		bullet->Update();
+		if (bullet->IsDead())
+		{
+			enemyBullets_.erase(itr);
+		}
+		itr++;
+	}
 }
 
 void GameScene::Draw() {
@@ -192,4 +216,9 @@ void GameScene::CheckAllCollisions()
 		}
 	}
 #pragma endregion
+}
+
+void GameScene::AddEnemyBullet(EnemyBullet* _enemyBullet)
+{
+	enemyBullets_.push_back(_enemyBullet);
 }

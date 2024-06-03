@@ -32,6 +32,11 @@ void PlayerBullet::Draw(const ViewProjection& _viewProjection)
 	model_->Draw(worldTransform_, _viewProjection, textureHandle_);
 }
 
+void PlayerBullet::SetParent(const WorldTransform* _parent)
+{
+	worldTransform_.parent_ = _parent;
+}
+
 void PlayerBullet::OnCollision()
 {
 	isDead_ = true;
