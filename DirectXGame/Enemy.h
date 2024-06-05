@@ -58,9 +58,6 @@ private:
 
 	Phase			phase_			= Phase::Approach;
 
-	// 弾
-	std::list<EnemyBullet*> bullets_;
-
 	Player*			player_			= nullptr;
 	GameScene*		gameScene_		= nullptr;
 
