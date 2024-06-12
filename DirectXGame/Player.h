@@ -4,6 +4,8 @@
 #include <Input.h>
 #include "PlayerBullet.h"
 #include <list>
+#include <Sprite.h>
+#include "ViewProjection.h"
 
 class Player {
 
@@ -11,8 +13,12 @@ private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
 
+	// 
+	ViewProjection viewProjection_;
+
 	// モデル
 	Model* model_ = nullptr;
+	Model* reticleModel = nullptr;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
@@ -25,6 +31,14 @@ private:
 
 	// 回転
 	void Rotate();
+
+	// 3Dレティクル用ワールド変換データ
+	WorldTransform worldTransform3DReticle_;
+
+	// 2Dレティクル用スプライト
+	Sprite* sprite2DReticle_ = nullptr;
+
+	void UpdateWorldTransform3DReticle();
 
 public:
 	~Player();
@@ -39,7 +53,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void	Update();
+	void	Update(const ViewProjection& _viewProjection);
 
 	/// <summary>
 	/// 描画
@@ -48,10 +62,16 @@ public:
 	void	Draw(ViewProjection& _viewProjection);
 
 	/// <summary>
+	/// UI描画
+	/// </summary>
+	void DrawUI();
+
+	/// <summary>
 	/// 攻撃
 	/// </summary>
 	void	Attack();
 
+	Vector3 GetWorldPosition(const Matrix4x4& _m);
 	Vector3 GetWorldPosition();
 
 	void OnCollision();

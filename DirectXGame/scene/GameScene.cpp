@@ -26,19 +26,21 @@ void GameScene::Initialize() {
 
 	// テクスチャハンドルを取得
 	textureHandle_ = TextureManager::Load("img/player.png");
+	TextureManager::Load("x.png");
+
 	// 3Dモデルの生成
 	model_ = Model::Create();
 	modelSkydome_ = Model::CreateFromOBJ("tenkyu", true);
 
 	// レールカメラ生成
 	railCamera_ = new RailCamera();
-	railCamera_->Initialize({ 0,0,0 }, { 0, 0, 0 });
+	railCamera_->Initialize({ 0,0,1 }, { 0, 0, 0 });
 
 	// 自キャラの生成
 	player_ = new Player();
 
 	// 自キャラの初期化
-	Vector3 playerPosition(0, 0, 20.0f);
+	Vector3 playerPosition(1, 0, 20.0f);
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldTransform());
 
@@ -66,7 +68,7 @@ void GameScene::Initialize() {
 void GameScene::Update() 
 {
 	// 自キャラの更新
-	player_->Update();
+	player_->Update(viewProjection_);
 	// 敵キャラの更新
 	for (Enemy* enemy : enemies_)
 	{
@@ -179,6 +181,8 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
+	player_->DrawUI();
+	
 	// スプライト描画後処理
 	Sprite::PostDraw();
 

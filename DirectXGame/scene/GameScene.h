@@ -74,6 +74,7 @@ private: // メンバ変数
 	
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+	uint32_t reticleHandle_ = 0u;
 
 	// モデル
 	Model* model_ = nullptr;

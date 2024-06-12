@@ -9,5 +9,7 @@ struct Vector3 final {
 	float z;
 
 	Vector3& operator+=(const Vector3& _rv);
+	Vector3 operator-(const Vector3& _v);
+	Vector3 operator+(const Vector3& _v);
 };
 

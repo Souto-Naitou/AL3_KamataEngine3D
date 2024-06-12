@@ -8,6 +8,11 @@ void RailCamera::Initialize(Vector3 _translate, Vector3 _rotate)
 	worldTransform_.scale_ = { 1.0f, 1.0f, 1.0f };
 	worldTransform_.rotation_ = _rotate;
 	worldTransform_.translation_ = _translate;
+	worldTransform_.matWorld_ = MakeAffineMatrix(
+		worldTransform_.scale_,
+		worldTransform_.rotation_,
+		worldTransform_.translation_
+	);
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
