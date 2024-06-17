@@ -96,7 +96,7 @@ void Enemy::Fire()
 
 void Enemy::OnCollision()
 {
-	
+	isDead_ = true;
 }
 
 void (Enemy::* Enemy::pPhase[])() =
