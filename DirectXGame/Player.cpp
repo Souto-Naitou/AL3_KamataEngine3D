@@ -284,6 +284,7 @@ void Player::Update3DReticleWithCursor(const ViewProjection& _viewProjection)
 		worldTransform3DReticle_.translation_.y,
 		worldTransform3DReticle_.translation_.z
 	);
+	ImGui::Text("BulletCount : %u", bullets_.size());
 	ImGui::End();
 }
 

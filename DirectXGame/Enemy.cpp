@@ -23,25 +23,15 @@ void Enemy::Initialize(Model* _model, const Vector3& _position, const Vector3& _
 void Enemy::Update()
 {
 
+	ApproachPhaseUpdate();
+
+	(this->*pPhase[static_cast<size_t>(phase_)])();
 
 	worldTransform_.translation_ += velocity_;
 	worldTransform_.UpdateMatrix();
 
-	ApproachPhaseUpdate();
-	
-	switch (phase_)
-	{
-	case Phase::Approach:
-	default:
-		// 接近
-		Phase_Approach();
-		break;
 
-	case Phase::Leave:
-		// 離脱
-		Phase_Leave();
-		break;
-	}
+
 }
 
 void Enemy::Draw(const ViewProjection& _viewProjection)
@@ -107,3 +97,9 @@ void Enemy::OnCollision()
 {
 	
 }
+
+void (Enemy::* Enemy::pPhase[])() =
+{
+	&Enemy::Phase_Approach,
+	&Enemy::Phase_Leave
+};

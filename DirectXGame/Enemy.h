@@ -63,4 +63,5 @@ private:
 
 	void			Phase_Approach();
 	void			Phase_Leave();
+	static void		(Enemy::* pPhase[])();
 };
