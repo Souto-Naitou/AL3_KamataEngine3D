@@ -78,11 +78,13 @@ void GameScene::Update()
 	// レールカメラの更新
 	if (railCamera_)
 		railCamera_->Update();
+
 	// 弾更新
 	for (EnemyBullet* bullet : enemyBullets_)
 	{
 		bullet->Update();
 	}
+
 	// デスフラグの立った弾を削除
 	enemyBullets_.remove_if([](EnemyBullet* bullet)
 		{
@@ -94,6 +96,18 @@ void GameScene::Update()
 			return false;
 		}
 	);
+
+	enemies_.remove_if([](Enemy* enemy)
+		{
+			if (enemy->IsDead())
+			{
+				delete enemy;
+				return true;
+			}
+			return false;
+		}
+	);
+
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0))
@@ -181,8 +195,7 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	player_->DrawUI();
-	
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
