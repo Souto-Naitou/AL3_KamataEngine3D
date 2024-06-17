@@ -11,5 +11,6 @@ struct Vector3 final {
 	Vector3& operator+=(const Vector3& _rv);
 	Vector3 operator-(const Vector3& _v);
 	Vector3 operator+(const Vector3& _v);
+	Vector3 operator*(const float& _f);
 };
 

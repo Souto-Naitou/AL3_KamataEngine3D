@@ -25,3 +25,12 @@ Vector3 Vector3::operator+(const Vector3& _v)
 	result.z = z + _v.z;
 	return result;
 }
+
+Vector3 Vector3::operator*(const float& _f)
+{
+	Vector3 result{};
+	result.x = x * _f;
+	result.y = y * _f;
+	result.z = z * _f;
+	return result;
+}

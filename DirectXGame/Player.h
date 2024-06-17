@@ -12,33 +12,30 @@ class Player {
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
-
-	// 
-	ViewProjection viewProjection_;
-
+	// ビューポート
+	Matrix4x4 matViewport;
 	// モデル
 	Model* model_ = nullptr;
 	Model* reticleModel = nullptr;
-
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
-
 	// キーボード入力
 	Input* input_ = nullptr;
-
 	// 弾
 	std::list<PlayerBullet*> bullets_;
-
 	// 回転
 	void Rotate();
-
 	// 3Dレティクル用ワールド変換データ
 	WorldTransform worldTransform3DReticle_;
-
 	// 2Dレティクル用スプライト
 	Sprite* sprite2DReticle_ = nullptr;
+	// マウス座標(クライアントエリア座標)
+	POINT mousePosition;
+
 
 	void UpdateWorldTransform3DReticle();
+	void GetCursorPosition();
+	void Update3DReticleWithCursor(const ViewProjection&);
 
 public:
 	~Player();
@@ -64,7 +61,7 @@ public:
 	/// <summary>
 	/// UI描画
 	/// </summary>
-	void DrawUI();
+	void	DrawUI();
 
 	/// <summary>
 	/// 攻撃
