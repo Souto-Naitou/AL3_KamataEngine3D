@@ -15,6 +15,7 @@ void Enemy::Initialize(Model* _model, const Vector3& _position, const Vector3& _
 	textureHandle_ = TextureManager::Load("img/enemy.png");
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = _position;
+	worldTransform_.UpdateMatrix();
 	model_ = _model;
 	velocity_ = _velocity;
 	ApproachPhaseInitialize();
@@ -22,8 +23,6 @@ void Enemy::Initialize(Model* _model, const Vector3& _position, const Vector3& _
 
 void Enemy::Update()
 {
-
-
 	worldTransform_.translation_ += velocity_;
 	worldTransform_.UpdateMatrix();
 
@@ -105,5 +104,5 @@ void Enemy::Fire()
 
 void Enemy::OnCollision()
 {
-	
+	isDead_ = true;
 }

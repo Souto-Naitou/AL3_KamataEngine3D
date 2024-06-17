@@ -17,7 +17,7 @@ void RailCamera::Initialize(Vector3 _translate, Vector3 _rotate)
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
-	translateSpeed_.z = -0.01f;
+	translateSpeed_.z = -0.05f;
 }
 
 void RailCamera::Update()
@@ -39,8 +39,8 @@ void RailCamera::Update()
 	ImGui::Begin("Camera", (bool*)false, ImGuiWindowFlags_NoResize);
 	ImGui::DragFloat3("position", &worldTransform_.translation_.x, 0.01f);
 	ImGui::DragFloat3("rotate", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("speed.translate", &translateSpeed_.x, 0.01f);
-	ImGui::DragFloat3("speed.rotate", &rotateSpeed_.x, 0.01f);
+	ImGui::DragFloat3("speed.translate", &translateSpeed_.x, 0.001f);
+	ImGui::DragFloat3("speed.rotate", &rotateSpeed_.x, 0.001f);
 
 	ImGui::End();
 }

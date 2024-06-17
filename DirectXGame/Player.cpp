@@ -52,20 +52,20 @@ void Player::Update(const ViewProjection& _viewProjection)
 	const float kCharacterSpeed = 0.2f;
 
 	// 押した方向で移動ベクトルを変更（左右）
-	if (input_->PushKey(DIK_LEFT))
+	if (input_->PushKey(DIK_A))
 	{
 		move.x -= kCharacterSpeed;
 	}
-	else if (input_->PushKey(DIK_RIGHT))
+	else if (input_->PushKey(DIK_D))
 	{
 		move.x += kCharacterSpeed;
 	}
 	// 押した方向で移動ベクトルを変更（上下）
-	if (input_->PushKey(DIK_UP))
+	if (input_->PushKey(DIK_W))
 	{
 		move.y += kCharacterSpeed;
 	}
-	else if (input_->PushKey(DIK_DOWN))
+	else if (input_->PushKey(DIK_S))
 	{
 		move.y -= kCharacterSpeed;
 	}
@@ -120,7 +120,6 @@ void Player::Update(const ViewProjection& _viewProjection)
 	ImGui::Begin("Player");
 	ImGui::Text("x:%3.1f", worldTransform_.translation_.x);
 	ImGui::Text("y:%3.1f", worldTransform_.translation_.y);
-	//ImGui::DragFloat3("matworld", GetWorldPosition().x, 0.01f);
 
 	ImGui::End();
 }
@@ -158,8 +157,8 @@ void Player::Attack()
 
 		// 弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
-		newBullet->SetParent(worldTransform_.parent_);
+		newBullet->Initialize(model_, GetWorldPosition(worldTransform_.matWorld_), velocity);
+		//newBullet->SetParent(worldTransform_.parent_);
 
 		// 弾を登録する
 		bullets_.push_back(newBullet);
@@ -200,18 +199,7 @@ void Player::SetParent(const WorldTransform* _parent)
 
 void Player::Rotate()
 {
-	// 回転速さ{ラジアン / frame}
-	const float kRotSpeed = 0.02f;
-
-	// 押した方向で移動ベクトルを変更
-	if (input_->PushKey(DIK_A))
-	{
-		worldTransform_.rotation_.y -= kRotSpeed;
-	}
-	else if (input_->PushKey(DIK_D))
-	{
-		worldTransform_.rotation_.y += kRotSpeed;
-	}
+	return;
 }
 
 void Player::UpdateWorldTransform3DReticle()

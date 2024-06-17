@@ -48,6 +48,7 @@ public:
 
 	void	OnCollision();
 	void	SetGameScene(GameScene* _gameScene) { gameScene_ = _gameScene; }
+	bool	IsDead() const { return isDead_; };
 
 private:
 
@@ -60,6 +61,7 @@ private:
 
 	Player*			player_			= nullptr;
 	GameScene*		gameScene_		= nullptr;
+	bool			isDead_			= false;
 
 	void			Phase_Approach();
 	void			Phase_Leave();
