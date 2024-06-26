@@ -121,7 +121,6 @@
     <ClCompile Include="RailCamera.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="WorldTransformEx.cpp" />
-    <ClCompile Include="EnemyPhase.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="Skydome.cpp" />
   </ItemGroup>

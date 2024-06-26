@@ -13,6 +13,30 @@ enum class Phase
 	Leave,		// 離脱する
 };
 
+class Enemy;
+class BaseEnemyState
+{
+protected:
+	Enemy* enemy_;
+public:
+	BaseEnemyState(Enemy*);
+	virtual void Update() {};
+};
+
+class EnemyStateApproach : public BaseEnemyState
+{
+public:
+	EnemyStateApproach(Enemy* _enemy) : BaseEnemyState(_enemy) {};
+	void Update();
+};
+
+class EnemyStateLeave : public BaseEnemyState
+{
+public:
+	EnemyStateLeave(Enemy* _enemy) : BaseEnemyState(_enemy) {};
+	void Update();
+};
+
 /// <summary>
 /// 敵
 /// </summary>
@@ -38,11 +62,11 @@ public:
 	/// </summary>
 	void	Draw(const ViewProjection& _viewProjection);
 
-	void	ApproachPhaseInitialize();
-	void	ApproachPhaseUpdate();
+	void	ChangeState(BaseEnemyState* _state);
 
 	void	SetPlayer(Player* _player) { player_ = _player; }
-	Vector3	GetWorldPosition();
+	Vector3 GetWorldPosition();
+	void	SetTranslate(const Vector3& _translate);
 
 	void	Fire();
 
@@ -57,13 +81,9 @@ private:
 	uint32_t		textureHandle_	= 0u;
 	Vector3			velocity_;
 
-	Phase			phase_			= Phase::Approach;
-
 	Player*			player_			= nullptr;
 	GameScene*		gameScene_		= nullptr;
 	bool			isDead_			= false;
 
-	void			Phase_Approach();
-	void			Phase_Leave();
-	static void		(Enemy::* pPhase[])();
+	BaseEnemyState* state_;
 };

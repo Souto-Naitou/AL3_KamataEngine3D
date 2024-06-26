@@ -141,9 +141,6 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyPhase.cpp">
-      <Filter>ソース ファイル\enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>ソース ファイル\Skydome</Filter>
     </ClCompile>
