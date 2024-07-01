@@ -3,6 +3,7 @@
 #include <WorldTransform.h>
 #include <Model.h>
 #include "EnemyBullet.h"
+#include <TimedCall.h>
 
 class Player;
 class GameScene;
@@ -13,29 +14,9 @@ enum class Phase
 	Leave,		// 離脱する
 };
 
-class Enemy;
-class BaseEnemyState
-{
-protected:
-	Enemy* enemy_;
-public:
-	BaseEnemyState(Enemy*);
-	virtual void Update() {};
-};
-
-class EnemyStateApproach : public BaseEnemyState
-{
-public:
-	EnemyStateApproach(Enemy* _enemy) : BaseEnemyState(_enemy) {};
-	void Update();
-};
-
-class EnemyStateLeave : public BaseEnemyState
-{
-public:
-	EnemyStateLeave(Enemy* _enemy) : BaseEnemyState(_enemy) {};
-	void Update();
-};
+class BaseEnemyState;
+class EnemyStateApproach;
+class EnemyStateLeave;
 
 /// <summary>
 /// 敵
@@ -74,16 +55,47 @@ public:
 	void	SetGameScene(GameScene* _gameScene) { gameScene_ = _gameScene; }
 	bool	IsDead() const { return isDead_; };
 
+	/// <summary>
+	/// 弾を発射し、タイマーをリセットするコールバック関数
+	/// </summary>
+	void	ShotAndReset();
+
 private:
 
 	WorldTransform	worldTransform_;
-	Model*			model_			= nullptr;
-	uint32_t		textureHandle_	= 0u;
+	Model* model_ = nullptr;
+	uint32_t		textureHandle_ = 0u;
 	Vector3			velocity_;
 
-	Player*			player_			= nullptr;
-	GameScene*		gameScene_		= nullptr;
-	bool			isDead_			= false;
+	Player* player_ = nullptr;
+	GameScene* gameScene_ = nullptr;
+	bool			isDead_ = false;
+
+	// 時限発動のリスト
+	std::list<TimedCall*> timedCalls_;
 
 	BaseEnemyState* state_;
+};
+
+class BaseEnemyState
+{
+protected:
+	Enemy* enemy_;
+public:
+	BaseEnemyState(Enemy*);
+	virtual void Update() {};
+};
+
+class EnemyStateApproach : public BaseEnemyState
+{
+public:
+	EnemyStateApproach(Enemy* _enemy) : BaseEnemyState(_enemy) {};
+	void Update();
+};
+
+class EnemyStateLeave : public BaseEnemyState
+{
+public:
+	EnemyStateLeave(Enemy* _enemy) : BaseEnemyState(_enemy) {};
+	void Update();
 };

@@ -5,6 +5,7 @@
 #include "Vector3/calc/vector3calc.h"
 #include <cassert>
 #include "GameScene.h"
+#include <functional>
 
 Enemy::~Enemy()
 {
@@ -25,7 +26,34 @@ void Enemy::Initialize(Model* _model, const Vector3& _position, const Vector3& _
 
 void Enemy::Update()
 {
+	if (timedCalls_.empty()) ShotAndReset();
 	state_->Update();
+
+	//// 発射タイマーカウントダウン
+	//enemy_->shotRecastTime--;
+
+	//// 指定時間に達した
+	//if (enemy_->shotRecastTime == 0)
+	//{
+	//	enemy_->Fire();
+	//	// 発射タイマーを初期化
+	//	enemy_->shotRecastTime = enemy_->kFireInterval;
+	//}
+
+	// 終了したタイマーを削除
+	timedCalls_.remove_if([](TimedCall* _timedCall) {
+		if (_timedCall->IsFinished())
+		{
+			delete _timedCall;
+			return true;
+		}
+		return false;
+	});
+
+	for (TimedCall* timedCall : timedCalls_)
+	{
+		timedCall->Update();
+	}
 
 	worldTransform_.translation_ += velocity_;
 	worldTransform_.UpdateMatrix();
@@ -89,17 +117,15 @@ void Enemy::OnCollision()
 	isDead_ = true;
 }
 
+void Enemy::ShotAndReset()
+{
+	Fire();
+	// 発射タイマー初期化
+	timedCalls_.push_back(new TimedCall(std::bind(&Enemy::ShotAndReset, this), this->shotRecastTime));
+}
+
 void EnemyStateApproach::Update()
 {
-	// 発射タイマーカウントダウン
-	enemy_->shotRecastTime--;
-	// 指定時間に達した
-	if (enemy_->shotRecastTime == 0)
-	{
-		enemy_->Fire();
-		// 発射タイマーを初期化
-		enemy_->shotRecastTime = enemy_->kFireInterval;
-	}
 	Vector3 enemyTranslate = enemy_->GetWorldPosition();
 	// 移動 (ベクトルを加算)
 	enemyTranslate += Vector3(0, 0, -0.2f);
