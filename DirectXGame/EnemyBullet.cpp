@@ -11,11 +11,14 @@ void EnemyBullet::Initialize(Model* _model, const Vector3& _position, const Vect
 	textureHandle_ = TextureManager::Load("black.png");
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
-	worldTransform_.scale_ = Vector3(0.5f, 0.5f, 0.5f);
+	worldTransform_.scale_ = Vector3(0.5f, 0.5f, 3.0f);
 	// 引数で受け取った初期座標をセット
 	worldTransform_.translation_ = _position;
 	// 引数で受け取った速度をメンバ変数に代入
 	velocity_ = _velocity;
+	float velocityXZDist = sqrtf(velocity_.x * velocity_.x + velocity_.z * velocity_.z);
+	worldTransform_.rotation_.y = std::atan2f(velocity_.x, velocity_.z);
+	worldTransform_.rotation_.x = std::atan2f(-velocity_.y, velocityXZDist);
 }
 
 void EnemyBullet::Update()
