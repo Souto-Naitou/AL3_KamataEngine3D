@@ -121,6 +121,13 @@ void Player::Update(const ViewProjection& _viewProjection)
 	ImGui::Text("x:%3.1f", worldTransform_.translation_.x);
 	ImGui::Text("y:%3.1f", worldTransform_.translation_.y);
 
+	Vector3 vect = {};
+	for (float t = 0; t < 1.0f; t += 0.01f)
+	{
+		vect = Slerp(Vector3(1.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f), t);
+	}
+	
+
 	ImGui::End();
 }
 

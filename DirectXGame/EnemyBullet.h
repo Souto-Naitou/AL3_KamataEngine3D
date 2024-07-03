@@ -2,6 +2,7 @@
 
 #include <Model.h>
 #include <WorldTransform.h>
+#include "Player.h"
 
 /// <summary>
 /// 敵の弾
@@ -37,6 +38,8 @@ public:
 
 	void OnCollision();
 
+	void SetPlayer(Player* _player) { player_ = _player; };
+
 	Vector3 GetWorldPosition();
 
 private:
@@ -48,5 +51,5 @@ private:
 	int32_t			deathTimer_ = kLifeTime;		// デスタイマー
 	bool			isDead_ = false;				// デスフラグ
 	Vector3			velocity_;
-
+	Player*			player_;
 };

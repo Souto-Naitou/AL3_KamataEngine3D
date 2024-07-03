@@ -339,6 +339,7 @@ void GameScene::CheckAllCollisions()
 void GameScene::AddEnemyBullet(EnemyBullet* _enemyBullet)
 {
 	enemyBullets_.push_back(_enemyBullet);
+	enemyBullets_.back()->SetPlayer(player_);
 }
 
 void GameScene::MakeEnemyInstance(Vector3 _pos)

@@ -1,6 +1,8 @@
 #include "EnemyBullet.h"
 #include <cassert>
 #include "TextureManager.h"
+#include <Vector3/calc/vector3calc.h>
+#include "math/MathExtension/mathExtension.h"
 
 void EnemyBullet::Initialize(Model* _model, const Vector3& _position, const Vector3& _velocity)
 {
@@ -27,7 +29,21 @@ void EnemyBullet::Update()
 	{
 		isDead_ = true;
 	}
+
 	worldTransform_.translation_ += velocity_;
+
+	Vector3 toPlayer = Subtract(player_->GetWorldPosition(), worldTransform_.translation_);
+	// ベクトルを正規化
+	Normalize(toPlayer);
+	Normalize(velocity_);
+	// 球面線形補間により、今の速度と自キャラへのベクトルを内挿し、新たな速度へ
+	velocity_ = Slerp(velocity_, toPlayer, 0.04f) * 0.5f;
+
+	// 進行方向に見た目の回転を合わせる
+	float velocityXZDist = sqrtf(velocity_.x * velocity_.x + velocity_.z * velocity_.z);
+	worldTransform_.rotation_.y = std::atan2f(velocity_.x, velocity_.z);
+	worldTransform_.rotation_.x = std::atan2f(-velocity_.y, velocityXZDist);
+
 	worldTransform_.UpdateMatrix();
 }
 

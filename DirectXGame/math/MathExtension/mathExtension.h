@@ -13,4 +13,7 @@ int clamp(
 	int _min,
 	int _max
 );
+float Lerp(float _x, float _y, float _t);
 Vector3 TransformNormal(const Vector3& _v, const Matrix4x4& _m);
+Vector3 Lerp(const Vector3& _vx, const Vector3& _vy, float _t);
+Vector3 Slerp(const Vector3& _vx, const Vector3& _vy, float _t);
