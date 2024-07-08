@@ -6,9 +6,10 @@
 #include <list>
 #include <Sprite.h>
 #include "ViewProjection.h"
+#include "Collider.h"
 
-class Player {
-
+class Player : public Collider
+{
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -68,9 +69,11 @@ public:
 	/// </summary>
 	void	Attack();
 
+
 	Vector3 GetWorldPosition(const Matrix4x4& _m);
 	Vector3 GetWorldPosition();
 
+	// 衝突時に呼ばれる関数
 	void OnCollision();
 
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }

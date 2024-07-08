@@ -4,6 +4,7 @@
 #include <Model.h>
 #include "EnemyBullet.h"
 #include <TimedCall.h>
+#include "Collider.h"
 
 class Player;
 class GameScene;
@@ -21,7 +22,7 @@ class EnemyStateLeave;
 /// <summary>
 /// 敵
 /// </summary>
-class Enemy
+class Enemy : public Collider
 {
 public:
 	static const int kFireInterval = 60;

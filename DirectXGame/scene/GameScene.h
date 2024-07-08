@@ -8,6 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "DebugCamera.h"
+#include "Collider.h"
 
 #include <memory>
 #include "Player.h"
@@ -110,4 +111,10 @@ private: // メンバ変数
 
 private: // メンバ関数
 	void MakeEnemyInstance(Vector3 _pos);
+	/// <summary>
+	/// コライダー2つの衝突判定と応答
+	/// </summary>
+	/// <param name="_colliderA">コライダーA</param>
+	/// <param name="_colliderB">コライダーB</param>
+	void CheckCollisionPair(Collider* _colliderA, Collider* _colliderB);
 };

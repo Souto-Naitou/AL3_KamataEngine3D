@@ -3,11 +3,12 @@
 #include "Model.h"
 #include "Vector3.h"
 #include "WorldTransform.h"
+#include "Collider.h"
 
 /// <summary>
 /// 
 /// </summary>
-class PlayerBullet
+class PlayerBullet : public Collider
 {
 public:
 	/// <summary>

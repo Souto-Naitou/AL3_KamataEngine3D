@@ -284,37 +284,21 @@ void GameScene::UpdateEnemyPopCommands()
 
 void GameScene::CheckAllCollisions()
 {
-	Vector3 posA, posB;
-
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
 
 #pragma region 自キャラと敵弾の当たり判定
-	posA = player_->GetWorldPosition();
 	for (EnemyBullet* bullet : enemyBullets_)
 	{
-		posB = bullet->GetWorldPosition();
-		float aToB = Length(Subtract(posA, posB));
-		if (aToB < 3.0f)
-		{
-			player_->OnCollision();
-			bullet->OnCollision();
-		}
+		CheckCollisionPair(player_, bullet);
 	}
 #pragma endregion
 
 #pragma region 自弾と敵キャラの当たり判定
 	for (Enemy* enemy : enemies_)
 	{
-		posA = enemy->GetWorldPosition();
 		for (PlayerBullet* bullet : playerBullets)
 		{
-			posB = bullet->GetWorldPosition();
-			float aToB = Length(Subtract(posA, posB));
-			if (aToB < 3.0f)
-			{
-				enemy->OnCollision();
-				bullet->OnCollision();
-			}
+			CheckCollisionPair(enemy, bullet);
 		}
 	}
 
@@ -325,12 +309,7 @@ void GameScene::CheckAllCollisions()
 	{
 		for (EnemyBullet* eBullet : enemyBullets_)
 		{
-			float aToB = Length(Subtract(pBullet->GetWorldPosition(), eBullet->GetWorldPosition()));
-			if (aToB < 3.0f)
-			{
-				pBullet->OnCollision();
-				eBullet->OnCollision();
-			}
+			CheckCollisionPair(pBullet, eBullet);
 		}
 	}
 #pragma endregion
@@ -352,4 +331,22 @@ void GameScene::MakeEnemyInstance(Vector3 _pos)
 	// 敵キャラにゲームシーンを渡す
 	enemies_.back()->SetGameScene(this);
 	enemies_.back()->SetPlayer(player_);
+}
+
+void GameScene::CheckCollisionPair(Collider* _colliderA, Collider* _colliderB)
+{
+	Vector3 positionA = _colliderA->GetWorldPosition();
+	Vector3 positionB = _colliderB->GetWorldPosition();
+	// 判定に必要な前計算
+	float radiusCompd = _colliderA->GetRadius() + _colliderB->GetRadius();
+	Vector3 AtoBVect = positionB - positionA;
+	float distAtoB = Length(AtoBVect);
+	// 球と球の交差判定
+	if (distAtoB < radiusCompd)
+	{
+		// コライダーAの衝突時コールバック呼出
+		_colliderA->OnCollision();
+		// コライダーBの衝突時コールバック呼出
+		_colliderB->OnCollision();
+	}
 }

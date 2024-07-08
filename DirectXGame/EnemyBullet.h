@@ -3,11 +3,12 @@
 #include <Model.h>
 #include <WorldTransform.h>
 #include "Player.h"
+#include "Collider.h"
 
 /// <summary>
 /// 敵の弾
 /// </summary>
-class EnemyBullet
+class EnemyBullet : public Collider
 {
 public:
 
