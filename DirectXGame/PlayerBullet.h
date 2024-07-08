@@ -51,4 +51,7 @@ private:
 	int32_t			deathTimer_				= kLifeTime;	// デスタイマー
 	bool			isDead_					= false;		// デスフラグ
 	Vector3			velocity_;
+	// 衝突属性
+	const unsigned int collisionAttribute_ = 0b0010;
+	const unsigned int collisionMask_ = 0b1100;
 };

@@ -53,4 +53,9 @@ private:
 	bool			isDead_ = false;				// デスフラグ
 	Vector3			velocity_;
 	Player*			player_;
+
+	// 衝突属性
+	const unsigned int collisionAttribute_ = 0b1000;
+	// 衝突マスク
+	const unsigned int collisionMask_ = 0b0011;
 };

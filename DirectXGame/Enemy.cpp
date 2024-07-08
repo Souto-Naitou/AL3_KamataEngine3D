@@ -22,6 +22,11 @@ void Enemy::Initialize(Model* _model, const Vector3& _position, const Vector3& _
 	// 発射タイマー初期化
 	shotRecastTime = kFireInterval;
 	ChangeState(new EnemyStateApproach(this));
+
+	// 衝突属性を設定
+	SetCollisionAttribute(collisionAttribute_);
+	// 衝突対象を自分の属性以外に設定
+	SetCollisionMask(collisionMask_);
 }
 
 void Enemy::Update()

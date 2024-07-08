@@ -76,6 +76,10 @@ private:
 	std::list<TimedCall*> timedCalls_;
 
 	BaseEnemyState* state_;
+	// 衝突属性
+	const unsigned int collisionAttribute_ = 0b0100;
+	// 衝突マスク
+	const unsigned int collisionMask_ = 0b0011;
 };
 
 class BaseEnemyState

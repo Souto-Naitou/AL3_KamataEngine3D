@@ -33,6 +33,10 @@ private:
 	// マウス座標(クライアントエリア座標)
 	POINT mousePosition;
 
+	// 衝突属性
+	const unsigned int collisionAttribute_ = 0b0001;
+	const unsigned int collisionMask_ = 0b1100;
+
 
 	void UpdateWorldTransform3DReticle();
 	void GetCursorPosition();

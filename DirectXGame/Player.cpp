@@ -30,6 +30,11 @@ void Player::Initialize(Model* _model, uint32_t _textureHandle, Vector3 _positio
 
 	uint32_t textureReticle = TextureManager::Load("x.png");
 	sprite2DReticle_ = Sprite::Create(textureReticle, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }, { 0.5f, 0.5f });
+
+	// 衝突属性を設定
+	SetCollisionAttribute(collisionAttribute_);
+	// 衝突対象を自分の属性以外に設定
+	SetCollisionMask(collisionMask_);
 }
 
 void Player::Update(const ViewProjection& _viewProjection)
