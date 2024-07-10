@@ -109,6 +109,7 @@
     <ClCompile Include="2d\ImGuiManager.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\MathExtension\mathExtension.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionConfig.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="math\MathExtension\mathExtension.h" />

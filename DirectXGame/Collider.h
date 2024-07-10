@@ -1,4 +1,5 @@
 #pragma once
+#include <Vector3.h>
 
 /// <summary>
 /// 衝突判定オブジェクト

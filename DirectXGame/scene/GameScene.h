@@ -9,6 +9,7 @@
 #include "WorldTransform.h"
 #include "DebugCamera.h"
 #include "Collider.h"
+#include "CollisionManager.h"
 
 #include <memory>
 #include "Player.h"
@@ -73,6 +74,8 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	
+	CollisionManager* collisionManager = nullptr;
+
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 	uint32_t reticleHandle_ = 0u;

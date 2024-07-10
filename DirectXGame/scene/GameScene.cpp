@@ -16,6 +16,7 @@ GameScene::~GameScene()
 	delete modelSkydome_;
 	for (Enemy* enemy : enemies_) delete enemy;
 	for (EnemyBullet* eBullet : enemyBullets_) delete eBullet;
+	delete collisionManager;
 }
 
 void GameScene::Initialize() {
@@ -63,6 +64,8 @@ void GameScene::Initialize() {
 
 	// 敵発生スクリプトの読み込み
 	LoadEnemyPopData();
+
+	collisionManager = new CollisionManager;
 }
 
 void GameScene::Update() 
@@ -136,7 +139,15 @@ void GameScene::Update()
 		viewProjection_.TransferMatrix();
 	}
 
-	CheckAllCollisions();
+	collisionManager->ClearColliderList();
+
+	collisionManager->RegisterCollider(player_);
+	for (auto enemy : enemies_) collisionManager->RegisterCollider(enemy);
+	for (auto pBullet : player_->GetBullets()) collisionManager->RegisterCollider(pBullet);
+	for (auto eBullet : enemyBullets_) collisionManager->RegisterCollider(eBullet);
+
+	collisionManager->CheckAllCollisions();
+
 	skydome_.get()->Update();
 
 	// 敵発生コマンドを更新
