@@ -1,6 +1,9 @@
 #include "RailCamera.h"
 #include "Matrix4x4/calc/matrix4calc.h"
 #include <ImGuiManager.h>
+#include "Interpolation.h"
+#include <vector>
+#include <Vector3.h>
 
 void RailCamera::Initialize(Vector3 _translate, Vector3 _rotate)
 {
@@ -43,4 +46,21 @@ void RailCamera::Update()
 	ImGui::DragFloat3("speed.rotate", &rotateSpeed_.x, 0.001f);
 
 	ImGui::End();
+}
+
+void RailCamera::Draw(const ViewProjection& _viewProjection)
+{
+	// スプライン曲線制御点
+	std::vector<Vector3> controlPoints_;
+
+	controlPoints_ = {
+		{0,0,0},
+		{10,10,0},
+		{10,15,0},
+		{20,15,0},
+		{20,0,0},
+		{30,0,0},
+	};
+
+	interpolation_.DrawCatmullRom(controlPoints_, _viewProjection, Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 }

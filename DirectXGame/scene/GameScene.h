@@ -112,6 +112,8 @@ private: // メンバ変数
 	bool isWaitEnemy = false;
 	int32_t enemyWaitTime = 0;
 
+	
+
 private: // メンバ関数
 	void MakeEnemyInstance(Vector3 _pos);
 	/// <summary>

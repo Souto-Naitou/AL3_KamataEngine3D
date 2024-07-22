@@ -1,6 +1,7 @@
 #pragma once
 #include "WorldTransform.h"
 #include "ViewProjection.h"
+#include "Interpolation.h"
 
 
 class RailCamera
@@ -14,6 +15,10 @@ public:
 	/// 更新
 	/// </summary>
 	void Update();
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void Draw(const ViewProjection& _viewProjection);
 
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
@@ -23,4 +28,5 @@ private:
 	ViewProjection viewProjection_{};
 	Vector3 translateSpeed_{};
 	Vector3 rotateSpeed_{};
+	Interpolation interpolation_{};
 };

@@ -100,6 +100,9 @@
     <Filter Include="ソース ファイル\railCamera">
       <UniqueIdentifier>{0753b8ff-5d0e-4208-8638-7832f75c6397}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\math\Interpolation">
+      <UniqueIdentifier>{6d7bc2dd-2ead-430d-97c1-8ad536522400}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\DirectXCommon.cpp">
@@ -157,6 +160,9 @@
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Interpolation.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -286,6 +292,9 @@
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpolation.h">
+      <Filter>ヘッダー ファイル\math\Interpolation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
