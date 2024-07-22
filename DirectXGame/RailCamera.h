@@ -29,4 +29,8 @@ private:
 	Vector3 translateSpeed_{};
 	Vector3 rotateSpeed_{};
 	Interpolation interpolation_{};
+
+	// スプライン曲線制御点
+	std::vector<Vector3> controlPoints_;
+	float t = 0.0f;
 };

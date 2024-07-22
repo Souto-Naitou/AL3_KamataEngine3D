@@ -41,7 +41,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 
 	// 自キャラの初期化
-	Vector3 playerPosition(1, 0, 20.0f);
+	Vector3 playerPosition(0, 0, 0);
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldTransform());
 
@@ -189,10 +189,10 @@ void GameScene::Draw() {
 		enemy->Draw(viewProjection_);
 	}
 	// 弾描画
-	for (EnemyBullet* bullet : enemyBullets_)
-	{
-		bullet->Draw(viewProjection_);
-	}
+	//for (EnemyBullet* bullet : enemyBullets_)
+	//{
+	//	bullet->Draw(viewProjection_);
+	//}
 
 	railCamera_->Draw(viewProjection_);
 
