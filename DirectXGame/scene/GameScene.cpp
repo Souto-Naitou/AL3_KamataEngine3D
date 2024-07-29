@@ -44,6 +44,7 @@ void GameScene::Initialize() {
 	Vector3 playerPosition(0, 0, 0);
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldTransform());
+	player_->SetEnemies(&enemies_);
 
 	// 敵生成
 	MakeEnemyInstance(Vector3(6.0f, 2.0f, 100.0f));
@@ -110,7 +111,6 @@ void GameScene::Update()
 			return false;
 		}
 	);
-
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0))
@@ -208,6 +208,7 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
+	player_->DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

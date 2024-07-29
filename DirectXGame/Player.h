@@ -2,11 +2,13 @@
 #include <WorldTransform.h>
 #include <Model.h>
 #include <Input.h>
-#include "PlayerBullet.h"
 #include <list>
 #include <Sprite.h>
+#include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "Collider.h"
+
+class Enemy;
 
 class Player : public Collider
 {
@@ -32,6 +34,10 @@ private:
 	Sprite* sprite2DReticle_ = nullptr;
 	// マウス座標(クライアントエリア座標)
 	POINT mousePosition;
+
+	std::list<Enemy*>* enemiesList_;
+
+	XINPUT_STATE joyState_;
 
 	// 衝突属性
 	const unsigned int collisionAttribute_ = 0b0001;
@@ -76,6 +82,8 @@ public:
 
 	Vector3 GetWorldPosition(const Matrix4x4& _m);
 	Vector3 GetWorldPosition();
+
+	void SetEnemies(std::list<Enemy*>* _enemiesList) { enemiesList_ = _enemiesList; }
 
 	// 衝突時に呼ばれる関数
 	void OnCollision();

@@ -5,8 +5,9 @@
 #include "EnemyBullet.h"
 #include <TimedCall.h>
 #include "Collider.h"
+#include "Player.h"
+#include "Matrix4x4.h"
 
-class Player;
 class GameScene;
 
 enum class Phase
@@ -44,6 +45,10 @@ public:
 	/// </summary>
 	void	Draw(const ViewProjection& _viewProjection);
 
+	void	ComputeScreenPosition(const ViewProjection& _viewProjection);
+	
+	Vector3 GetScreenPosition() { return screenPosition; };
+
 	void	ChangeState(BaseEnemyState* _state);
 
 	void	SetPlayer(Player* _player) { player_ = _player; }
@@ -80,6 +85,8 @@ private:
 	const unsigned int collisionAttribute_ = 0b0100;
 	// 衝突マスク
 	const unsigned int collisionMask_ = 0b0011;
+
+	Vector3 screenPosition;
 };
 
 class BaseEnemyState

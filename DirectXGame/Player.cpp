@@ -3,6 +3,7 @@
 #include <ImGuiManager.h>
 #include "TextureManager.h"
 #include <WinApp.h>
+#include "Enemy.h"
 
 #include "Matrix4x4/calc/matrix4calc.h"
 #include "Vector3/calc/vector3calc.h"
@@ -50,6 +51,7 @@ void Player::Update(const ViewProjection& _viewProjection)
 			return false;
 		}
 	);
+
 	// キャラクターの移動ベクトル
 	Vector3 move = {0, 0, 0};
 
@@ -75,7 +77,6 @@ void Player::Update(const ViewProjection& _viewProjection)
 		move.y -= kCharacterSpeed;
 	}
 
-	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
 	// 移動限界座標
 	const float kMoveLimitX = 32;
@@ -92,23 +93,40 @@ void Player::Update(const ViewProjection& _viewProjection)
 	UpdateWorldTransform3DReticle();
 	Update3DReticleWithCursor(_viewProjection);
 
-#pragma region 3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
+	// ゲームパッド状態取得
+	if (Input::GetInstance()->GetJoystickState(0, joyState_))
+	{
+		move.x += static_cast<float>(joyState_.Gamepad.sThumbLX / SHRT_MAX * kCharacterSpeed);
+		move.y += static_cast<float>(joyState_.Gamepad.sThumbLY / SHRT_MAX * kCharacterSpeed);
+	}
+	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
-	Vector3 positionReticle = GetWorldPosition(worldTransform3DReticle_.matWorld_);
+	// スプライトの現在座標を取得
+	Vector2 spritePosition = sprite2DReticle_->GetPosition();
 
-	// ビューポート行列
-	matViewport = MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1.0f);
+	if (spritePosition.x + spritePosition.y == 0) spritePosition.y = 0.1f;
 
-	// ビュー行列とプロジェクション行列、ビューポート行列を合成する
-	Matrix4x4 matViewProjectionViewport = _viewProjection.matView * _viewProjection.matProjection * matViewport;
+	for (Enemy* enemy : *enemiesList_)
+	{
+		Vector3 epos = enemy->GetScreenPosition();
 
-	// ワールドｰ>スクリーン座標
-	positionReticle = Transform(positionReticle, matViewProjectionViewport);
+		float enemyLen = Length(epos);
+		float reticleLen = Length(Vector3{ spritePosition.x, spritePosition.y, 0 });
+		if (abs(enemyLen - reticleLen) < 5.0f)
+		{
+			spritePosition.x = epos.x;
+			spritePosition.y = epos.y;
+		}
+	}
 
-	// スプライトのレティクルに座標設定
-	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
+	if (Input::GetInstance()->GetJoystickState(0, joyState_))
+	{
+		spritePosition.x += static_cast<float>(joyState_.Gamepad.sThumbRX / SHRT_MAX * 10.0f);
+		spritePosition.y -= static_cast<float>(joyState_.Gamepad.sThumbRY / SHRT_MAX * 10.0f);
 
-#pragma endregion
+		// スプライトの座標変更を反映
+		sprite2DReticle_->SetPosition(spritePosition);
+	}
 
 	// キャラクター攻撃処理
 	Attack();
@@ -146,7 +164,7 @@ void Player::Draw(ViewProjection& _viewProjection)
 		bullet->Draw(_viewProjection);
 	}
 
-	reticleModel->Draw(worldTransform3DReticle_, _viewProjection);
+	//reticleModel->Draw(worldTransform3DReticle_, _viewProjection);
 }
 
 void Player::DrawUI()
@@ -156,7 +174,9 @@ void Player::DrawUI()
 
 void Player::Attack()
 {
-	if (input_->PushKey(DIK_SPACE))
+	if (!Input::GetInstance()->GetJoystickState(0, joyState_)) return;
+
+	if (input_->PushKey(DIK_SPACE) || joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
 	{
 		// 弾の速度
 		const float kbulletSpeed = 1.0f;

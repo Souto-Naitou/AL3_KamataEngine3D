@@ -6,6 +6,7 @@
 #include <cassert>
 #include "GameScene.h"
 #include <functional>
+#include "Matrix4x4/calc/matrix4calc.h"
 
 Enemy::~Enemy()
 {
@@ -67,7 +68,16 @@ void Enemy::Update()
 
 void Enemy::Draw(const ViewProjection& _viewProjection)
 {
+	ComputeScreenPosition(_viewProjection);
 	model_->Draw(worldTransform_, _viewProjection, textureHandle_);
+}
+
+void Enemy::ComputeScreenPosition(const ViewProjection& _viewProjection)
+{
+	Matrix4x4 vp = Multiply(_viewProjection.matView, _viewProjection.matProjection);
+	Vector3 world = this->GetWorldPosition();
+	Matrix4x4 viewport = MakeViewportMatrix(0, 0, 1280, 720, 0.0f, 100.0f);
+	screenPosition = Transform(Transform(world, vp), viewport);
 }
 
 void Enemy::ChangeState(BaseEnemyState* _state)

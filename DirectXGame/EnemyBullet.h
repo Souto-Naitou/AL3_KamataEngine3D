@@ -2,8 +2,9 @@
 
 #include <Model.h>
 #include <WorldTransform.h>
-#include "Player.h"
 #include "Collider.h"
+
+class Player;
 
 /// <summary>
 /// 敵の弾

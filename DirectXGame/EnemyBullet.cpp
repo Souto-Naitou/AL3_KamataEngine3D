@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 #include <Vector3/calc/vector3calc.h>
 #include "math/MathExtension/mathExtension.h"
+#include "Player.h"
 
 void EnemyBullet::Initialize(Model* _model, const Vector3& _position, const Vector3& _velocity)
 {

@@ -21,12 +21,12 @@ void RailCamera::Initialize(Vector3 _translate, Vector3 _rotate)
 	);
 
 	controlPoints_ = {
-	{0,0,0},
-	{10,10,10},
-	{10,15,20},
-	{20,15,30},
-	{20,0,2},
-	{30,0,10},
+		{0,0,-50},
+		{0,0,-40},
+		{0,0,-30},
+		{0,0,-20},
+		{0,0,-10},
+		{0,0,0},
 	};
 
 	// ビュープロジェクションの初期化
@@ -44,8 +44,9 @@ void RailCamera::Update()
 	//}
 
 
-	t += 0.003f;
-	float t2 = t + 0.1f;
+	t += 0.001f;
+	float t2 = t + 0.05f;
+
 	if (t >= 1.0f) t = 0.0f;
 	if (t2 >= 1.0f) t2 = 1.0f;
 
@@ -56,12 +57,13 @@ void RailCamera::Update()
 		Vector3 distTtoT2 = rpos - position;
 
 		float zxLen = sqrtf(powf(distTtoT2.x, 2.0f) + powf(distTtoT2.z, 2.0f));
-		float targetZ = atan2f(distTtoT2.y, distTtoT2.x);
+		//float targetZ = atan2f(distTtoT2.y, distTtoT2.x);
 		float targetX = atan2f(-distTtoT2.y, zxLen);
-		float targetY = atan2f(distTtoT2.z, distTtoT2.x);
+		float targetY = atan2f(distTtoT2.x, distTtoT2.z);
+
 		worldTransform_.rotation_.x = targetX;
 		worldTransform_.rotation_.y = targetY;
-		worldTransform_.rotation_.z = targetZ;
+		//worldTransform_.rotation_.z = targetZ;
 	}
 
 	worldTransform_.translation_ = position;
