@@ -34,12 +34,18 @@ void Player::Initialize(Model* _model, uint32_t _textureHandle, Vector3 _positio
 
 	// 衝突属性を設定
 	SetCollisionAttribute(collisionAttribute_);
+
 	// 衝突対象を自分の属性以外に設定
 	SetCollisionMask(collisionMask_);
+
+	matViewport = MakeViewportMatrix(0, 0, 1280, 720, 0.0f, 100.0f);
+
+	spritePosition = Vector2(640, 360);
 }
 
 void Player::Update(const ViewProjection& _viewProjection)
 {
+	_viewProjection;
 	// デスフラグの立った弾を削除
 	bullets_.remove_if([](PlayerBullet* bullet)
 		{
@@ -90,9 +96,6 @@ void Player::Update(const ViewProjection& _viewProjection)
 	// ワールドトランスフォームの更新
 	worldTransform_.UpdateMatrix();
 
-	UpdateWorldTransform3DReticle();
-	Update3DReticleWithCursor(_viewProjection);
-
 	// ゲームパッド状態取得
 	if (Input::GetInstance()->GetJoystickState(0, joyState_))
 	{
@@ -102,9 +105,11 @@ void Player::Update(const ViewProjection& _viewProjection)
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
 	// スプライトの現在座標を取得
-	Vector2 spritePosition = sprite2DReticle_->GetPosition();
+	spritePosition = sprite2DReticle_->GetPosition();
 
 	if (spritePosition.x + spritePosition.y == 0) spritePosition.y = 0.1f;
+
+	Update3DReticleWithCursor(_viewProjection);
 
 	for (Enemy* enemy : *enemiesList_)
 	{
@@ -112,10 +117,11 @@ void Player::Update(const ViewProjection& _viewProjection)
 
 		float enemyLen = Length(epos);
 		float reticleLen = Length(Vector3{ spritePosition.x, spritePosition.y, 0 });
-		if (abs(enemyLen - reticleLen) < 5.0f)
+		if (abs(enemyLen - reticleLen) < 10.0f)
 		{
 			spritePosition.x = epos.x;
 			spritePosition.y = epos.y;
+			UpdateWorldTransform3DReticle(enemy->GetWorldPosition());
 		}
 	}
 
@@ -179,7 +185,7 @@ void Player::Attack()
 	if (input_->PushKey(DIK_SPACE) || joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
 	{
 		// 弾の速度
-		const float kbulletSpeed = 1.0f;
+		const float kbulletSpeed = 5.0f;
 		Vector3 velocity(0, 0, kbulletSpeed);
 
 		// 速度ベクトルを自機の向きに合わせて回転させる
@@ -234,21 +240,21 @@ void Player::Rotate()
 	return;
 }
 
-void Player::UpdateWorldTransform3DReticle()
+void Player::UpdateWorldTransform3DReticle(Vector3 _translation)
 {
 
 #pragma region 自機のワールド座標から3Dレティクルのワールド座標を計算
 
-	// 自機から3Dレティクルへの距離
-	const float kDistancePlayerTo3DReticle = 50.0f;
-	// 自機から3Dレティクルへのオフセット(Z+向き)
-	Vector3 offset = { 0,0,1.0f };
-	// 自機のワールド行列の回転を反映
-	offset = TransformNormal(offset, worldTransform_.matWorld_);
-	// ベクトルの長さを整える
-	offset = Multiply(kDistancePlayerTo3DReticle, Normalize(offset));
+	//// 自機から3Dレティクルへの距離
+	//const float kDistancePlayerTo3DReticle = 100.0f;
+	//// 自機から3Dレティクルへのオフセット(Z+向き)
+	//Vector3 offset = { 0,0,1.0f };
+	//// 自機のワールド行列の回転を反映
+	//offset = TransformNormal(offset, worldTransform_.matWorld_);
+	//// ベクトルの長さを整える
+	//offset = Multiply(kDistancePlayerTo3DReticle, Normalize(offset));
 	// 3Dレティクルの座標を設定
-	worldTransform3DReticle_.translation_ = GetWorldPosition(worldTransform_.matWorld_) + offset;
+	worldTransform3DReticle_.translation_ = _translation;
 	worldTransform3DReticle_.UpdateMatrix();
 
 #pragma endregion
@@ -276,6 +282,13 @@ void Player::Update3DReticleWithCursor(const ViewProjection& _viewProjection)
 	// 合成行列の逆行列を計算する
 	Matrix4x4 matInverseVPV = Inverse(matVPV);
 
+	mousePosition.x = static_cast<long>(spritePosition.x);
+	mousePosition.y = static_cast<long>(spritePosition.y);
+	if (mousePosition.x + mousePosition.y == 0)
+	{
+		mousePosition.x = 1;
+		mousePosition.y = 1;
+	}
 	// スクリーン座標
 	Vector3 posNear = Vector3(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y), 0);
 	Vector3 posFar = Vector3(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y), 1);
@@ -293,8 +306,6 @@ void Player::Update3DReticleWithCursor(const ViewProjection& _viewProjection)
 	worldTransform3DReticle_.UpdateMatrix();
 
 	ImGui::Begin("Player");
-	Vector2 spritePosition;
-	spritePosition = sprite2DReticle_->GetPosition();
 	ImGui::Text("2DReticle:(%f,%f)", spritePosition.x, spritePosition.y);
 	ImGui::Text("Near:(%+.2f,%+.2f,%+.2f)", posNear.x, posNear.y, posNear.z);
 	ImGui::Text("Far:(%+.2f,%+.2f,%+.2f)", posFar.x, posFar.y, posFar.z);

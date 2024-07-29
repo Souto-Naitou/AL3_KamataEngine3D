@@ -41,7 +41,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 
 	// 自キャラの初期化
-	Vector3 playerPosition(0, 0, 0);
+	Vector3 playerPosition(0, 0, 12.0f);
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldTransform());
 	player_->SetEnemies(&enemies_);

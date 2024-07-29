@@ -35,6 +35,9 @@ private:
 	// マウス座標(クライアントエリア座標)
 	POINT mousePosition;
 
+	// 
+	Vector2 spritePosition;
+
 	std::list<Enemy*>* enemiesList_;
 
 	XINPUT_STATE joyState_;
@@ -44,7 +47,7 @@ private:
 	const unsigned int collisionMask_ = 0b1100;
 
 
-	void UpdateWorldTransform3DReticle();
+	void UpdateWorldTransform3DReticle(Vector3 _translation);
 	void GetCursorPosition();
 	void Update3DReticleWithCursor(const ViewProjection&);
 
