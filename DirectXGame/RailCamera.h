@@ -20,6 +20,10 @@ public:
 	/// </summary>
 	void Draw(const ViewProjection& _viewProjection);
 
+	void SetParent(const WorldTransform* _parent);
+
+	void UpdateWithCatmull();
+
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 private:

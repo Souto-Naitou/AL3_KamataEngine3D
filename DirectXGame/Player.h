@@ -90,6 +90,7 @@ public:
 	/// </summary>
 	void	Attack();
 
+	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
 	Vector3 GetWorldPosition(const Matrix4x4& _m);
 	Vector3 GetWorldPosition();

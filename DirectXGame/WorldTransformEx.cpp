@@ -15,3 +15,11 @@ void WorldTransform::UpdateMatrix()
 	// 定数バッファに転送する
 	TransferMatrix();
 }
+
+void WorldTransform::CalculateMatrix()
+{
+	if (parent_)
+	{
+		matWorld_ = Multiply(matWorld_, parent_->matWorld_);
+	}
+}

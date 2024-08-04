@@ -41,9 +41,9 @@ void GameScene::Initialize() {
 	player_ = new Player();
 
 	// 自キャラの初期化
-	Vector3 playerPosition(0, 0, 12.0f);
+	Vector3 playerPosition(0, 0, 0);
 	player_->Initialize(model_, textureHandle_, playerPosition);
-	player_->SetParent(&railCamera_->GetWorldTransform());
+	railCamera_->SetParent(&player_->GetWorldTransform());
 	player_->SetEnemies(&enemies_);
 	lockonEnemyList_ = player_->GetLockonEnemyListPair();
 
