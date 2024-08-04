@@ -22,6 +22,7 @@ private:
 	Model* reticleModel = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+	uint32_t textureReticle_ = 0u;
 	// キーボード入力
 	Input* input_ = nullptr;
 	// 弾
@@ -32,6 +33,7 @@ private:
 	WorldTransform worldTransform3DReticle_;
 	// 2Dレティクル用スプライト
 	Sprite* sprite2DReticle_ = nullptr;
+	std::vector<Sprite*>sprite2DReticleLockon_;
 	// マウス座標(クライアントエリア座標)
 	POINT mousePosition;
 
@@ -41,6 +43,12 @@ private:
 	std::list<Enemy*>* enemiesList_;
 
 	XINPUT_STATE joyState_;
+
+	//std::vector<Enemy*> lockonEnemyList;
+	std::vector<std::pair<Enemy*, Sprite*>> lockonEnemyPairList_;
+
+	// 弾の速度
+	const float kbulletSpeed = 5.0f;
 
 	// 衝突属性
 	const unsigned int collisionAttribute_ = 0b0001;
@@ -85,6 +93,7 @@ public:
 
 	Vector3 GetWorldPosition(const Matrix4x4& _m);
 	Vector3 GetWorldPosition();
+	std::vector<std::pair<Enemy*, Sprite*>>* GetLockonEnemyListPair() { return &lockonEnemyPairList_; }
 
 	void SetEnemies(std::list<Enemy*>* _enemiesList) { enemiesList_ = _enemiesList; }
 

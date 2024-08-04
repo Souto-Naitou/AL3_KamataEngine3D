@@ -17,6 +17,7 @@
 #include "RailCamera.h"
 #include "EnemyBullet.h"
 #include <sstream>
+#include <vector>
 
 class Skydome;
 
@@ -112,6 +113,7 @@ private: // メンバ変数
 	bool isWaitEnemy = false;
 	int32_t enemyWaitTime = 0;
 
+	std::vector<std::pair<Enemy*, Sprite*>>* lockonEnemyList_;
 	
 
 private: // メンバ関数

@@ -32,7 +32,7 @@ void Enemy::Initialize(Model* _model, const Vector3& _position, const Vector3& _
 
 void Enemy::Update()
 {
-	if (timedCalls_.empty()) ShotAndReset();
+	//if (timedCalls_.empty()) ShotAndReset();
 	state_->Update();
 
 	//// 発射タイマーカウントダウン

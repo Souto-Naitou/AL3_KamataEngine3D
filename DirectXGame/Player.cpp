@@ -29,8 +29,9 @@ void Player::Initialize(Model* _model, uint32_t _textureHandle, Vector3 _positio
 
 	reticleModel = Model::CreateFromOBJ("cube");
 
-	uint32_t textureReticle = TextureManager::Load("x.png");
-	sprite2DReticle_ = Sprite::Create(textureReticle, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }, { 0.5f, 0.5f });
+	textureReticle_ = TextureManager::Load("x.png");
+	sprite2DReticle_ = Sprite::Create(textureReticle_, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }, { 0.5f, 0.5f });
+	sprite2DReticleLockon_.clear();
 
 	// 衝突属性を設定
 	SetCollisionAttribute(collisionAttribute_);
@@ -83,6 +84,11 @@ void Player::Update(const ViewProjection& _viewProjection)
 		move.y -= kCharacterSpeed;
 	}
 
+	if (input_->PushKey(DIK_LEFTARROW)) spritePosition.x -= 10.0f;
+	if (input_->PushKey(DIK_RIGHTARROW)) spritePosition.x += 10.0f;
+	if (input_->PushKey(DIK_UPARROW)) spritePosition.y -= 10.0f;
+	if (input_->PushKey(DIK_DOWNARROW)) spritePosition.y += 10.0f;
+	sprite2DReticle_->SetPosition(spritePosition);
 
 	// 移動限界座標
 	const float kMoveLimitX = 32;
@@ -117,22 +123,35 @@ void Player::Update(const ViewProjection& _viewProjection)
 
 		float enemyLen = Length(epos);
 		float reticleLen = Length(Vector3{ spritePosition.x, spritePosition.y, 0 });
+
 		if (abs(enemyLen - reticleLen) < 10.0f)
 		{
-			spritePosition.x = epos.x;
-			spritePosition.y = epos.y;
-			UpdateWorldTransform3DReticle(enemy->GetWorldPosition());
+			bool isSame = false;
+			for (auto lcEnemy : lockonEnemyPairList_)
+			{
+				if (lcEnemy.first == enemy)
+				{
+					isSame = true;
+					break;
+				}
+			}
+			if (!isSame)
+			{
+				lockonEnemyPairList_.push_back({});
+				lockonEnemyPairList_.back().first = enemy;
+				lockonEnemyPairList_.back().second = Sprite::Create(textureReticle_, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }, { 0.5f, 0.5f });
+			}
 		}
 	}
 
-	if (Input::GetInstance()->GetJoystickState(0, joyState_))
-	{
-		spritePosition.x += static_cast<float>(joyState_.Gamepad.sThumbRX / SHRT_MAX * 10.0f);
-		spritePosition.y -= static_cast<float>(joyState_.Gamepad.sThumbRY / SHRT_MAX * 10.0f);
+	//if (Input::GetInstance()->GetJoystickState(0, joyState_))
+	//{
+	//	spritePosition.x += static_cast<float>(joyState_.Gamepad.sThumbRX / SHRT_MAX * 10.0f);
+	//	spritePosition.y -= static_cast<float>(joyState_.Gamepad.sThumbRY / SHRT_MAX * 10.0f);
 
-		// スプライトの座標変更を反映
-		sprite2DReticle_->SetPosition(spritePosition);
-	}
+	//	// スプライトの座標変更を反映
+	//	sprite2DReticle_->SetPosition(spritePosition);
+	//}
 
 	// キャラクター攻撃処理
 	Attack();
@@ -175,31 +194,40 @@ void Player::Draw(ViewProjection& _viewProjection)
 
 void Player::DrawUI()
 {
+	for (auto lockon : lockonEnemyPairList_)
+	{
+		Vector3 pos = lockon.first->GetScreenPosition();
+		lockon.second->SetSize(Vector2(20, 20));
+		lockon.second->SetPosition({ pos.x, pos.y });
+		lockon.second->Draw();
+	}
 	sprite2DReticle_->Draw();
 }
 
 void Player::Attack()
 {
-	if (!Input::GetInstance()->GetJoystickState(0, joyState_)) return;
+	//if (!Input::GetInstance()->GetJoystickState(0, joyState_)) return;
 
-	if (input_->PushKey(DIK_SPACE) || joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
+	if (input_->TriggerKey(DIK_SPACE) || joyState_.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
 	{
-		// 弾の速度
-		const float kbulletSpeed = 5.0f;
-		Vector3 velocity(0, 0, kbulletSpeed);
+		for (auto lockon : lockonEnemyPairList_)
+		{
+			Vector3 velocity(0, 0, kbulletSpeed);
 
-		// 速度ベクトルを自機の向きに合わせて回転させる
-		velocity = GetWorldPosition(worldTransform3DReticle_.matWorld_) - GetWorldPosition(worldTransform_.matWorld_);
-		velocity = Multiply(kbulletSpeed, Normalize(velocity));
-		//velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+			// 速度ベクトルを自機の向きに合わせて回転させる
+			velocity = lockon.first->GetWorldPosition() - GetWorldPosition(worldTransform_.matWorld_);
+			velocity = Multiply(kbulletSpeed, Normalize(velocity));
+			//velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 
-		// 弾を生成し、初期化
-		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, GetWorldPosition(worldTransform_.matWorld_), velocity);
-		//newBullet->SetParent(worldTransform_.parent_);
 
-		// 弾を登録する
-		bullets_.push_back(newBullet);
+			// 弾を生成し、初期化
+			PlayerBullet* newBullet = new PlayerBullet();
+			newBullet->Initialize(model_, GetWorldPosition(worldTransform_.matWorld_), velocity);
+			//newBullet->SetParent(worldTransform_.parent_);
+
+			// 弾を登録する
+			bullets_.push_back(newBullet);
+		}
 	}
 }
 
@@ -258,7 +286,7 @@ void Player::UpdateWorldTransform3DReticle(Vector3 _translation)
 	worldTransform3DReticle_.UpdateMatrix();
 
 #pragma endregion
-
+	
 }
 
 void Player::GetCursorPosition()
@@ -325,6 +353,10 @@ Player::~Player()
 	for (PlayerBullet* bullet : bullets_)
 	{
 		delete bullet;
+	}
+	for (auto lockon : lockonEnemyPairList_)
+	{
+		delete lockon.second;
 	}
 	delete sprite2DReticle_;
 }

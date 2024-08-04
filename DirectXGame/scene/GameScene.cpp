@@ -45,6 +45,7 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldTransform());
 	player_->SetEnemies(&enemies_);
+	lockonEnemyList_ = player_->GetLockonEnemyListPair();
 
 	// 敵生成
 	MakeEnemyInstance(Vector3(6.0f, 2.0f, 100.0f));
@@ -97,6 +98,14 @@ void GameScene::Update()
 				delete bullet;
 				return true;
 			}
+			return false;
+		}
+	);
+
+	if (lockonEnemyList_)
+		std::erase_if(*lockonEnemyList_, [](std::pair<Enemy*, Sprite*> lcEnm) {
+			if (lcEnm.first)
+				return lcEnm.first->IsDead(); 
 			return false;
 		}
 	);
@@ -189,10 +198,10 @@ void GameScene::Draw() {
 		enemy->Draw(viewProjection_);
 	}
 	// 弾描画
-	//for (EnemyBullet* bullet : enemyBullets_)
-	//{
-	//	bullet->Draw(viewProjection_);
-	//}
+	for (EnemyBullet* bullet : enemyBullets_)
+	{
+		bullet->Draw(viewProjection_);
+	}
 
 	railCamera_->Draw(viewProjection_);
 
