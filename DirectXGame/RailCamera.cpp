@@ -53,6 +53,7 @@ void RailCamera::Update()
 		viewProjection_.fovAngleY, float(1280) / float(720), viewProjection_.nearZ, viewProjection_.farZ
 	);
 	
+#ifdef _DEBUG
 	// カメラの座標を画面表示する処理
 	ImGui::SetNextWindowSize(ImVec2(340, 150));
 	ImGui::Begin("Camera", (bool*)false, ImGuiWindowFlags_NoResize);
@@ -61,9 +62,10 @@ void RailCamera::Update()
 	ImGui::DragFloat3("speed.translate", &translateSpeed_.x, 0.001f);
 	ImGui::DragFloat3("speed.rotate", &rotateSpeed_.x, 0.001f);
 
+	ImGui::End();
+#endif // _DEBUG
 	worldTransform_.UpdateMatrix();
 
-	ImGui::End();
 }
 
 void RailCamera::Draw(const ViewProjection& _viewProjection)

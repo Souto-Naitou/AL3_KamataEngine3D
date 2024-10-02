@@ -164,6 +164,7 @@ void Player::Update(const ViewProjection& _viewProjection)
 
 	Rotate();
 
+#ifdef _DEBUG
 	// ImGui
 	ImGui::Begin("Player");
 	ImGui::Text("x:%3.1f", worldTransform_.translation_.x);
@@ -177,6 +178,7 @@ void Player::Update(const ViewProjection& _viewProjection)
 	
 
 	ImGui::End();
+#endif // _DEBUG
 }
 
 void Player::Draw(ViewProjection& _viewProjection)
@@ -333,6 +335,8 @@ void Player::Update3DReticleWithCursor(const ViewProjection& _viewProjection)
 	worldTransform3DReticle_.translation_ = posNear + (mouseDirection * kDistanceTestObject);
 	worldTransform3DReticle_.UpdateMatrix();
 
+#ifdef _DEBUG
+
 	ImGui::Begin("Player");
 	ImGui::Text("2DReticle:(%f,%f)", spritePosition.x, spritePosition.y);
 	ImGui::Text("Near:(%+.2f,%+.2f,%+.2f)", posNear.x, posNear.y, posNear.z);
@@ -345,6 +349,9 @@ void Player::Update3DReticleWithCursor(const ViewProjection& _viewProjection)
 	);
 	ImGui::Text("BulletCount : %u", bullets_.size());
 	ImGui::End();
+
+#endif // _DEBUG
+
 }
 
 Player::~Player()
